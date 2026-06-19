@@ -9,7 +9,7 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 const verifyToken = process.env.VERIFY_TOKEN;
 const WHATSAPP_PHONE_NUMBER_ID = '1201303469727476';
-const WHATSAPP_ACCESS_TOKEN = 'EAAOB5yPxaIMBRZCUp02FS74Cr3QLs3wZCKgcfsUQmEVZBofRtZCKGjUfxDZCGWBBiBOQHGejhjqCkAU0WYD3xce77sdDeFvMchtdBeXn0vsa7vapK8o0RMahdMmHcecIht4NcAzVrYt2ACCHuVq4yKZArJhZB9j9tlg7Jymgf5ytYkNyTauZBkG3UgurdSs2CN8AZB4r8nJN1N4kJUn8Aq7eN3vC8S73zHnFUaiGPpOZCW2G3U5uOrTtGNXS8g1ktJ3B4cXArHWWQ33PGgH12C2WQw';
+const WHATSAPP_ACCESS_TOKEN = 'EAAOB5yPxaIMBR3ZCA8xDOIUkyeGlsaigOmzjjZCQ321pvcDx4eJEfX6h76mb0C1HDI6ihytQ1luWp2DAtbl2g3kMIDGysRcIUMtBJ4sbJ61zowUxy9haLiZADEMWK5pnYxXo80osiT7B7KGwErr1rVMHnj2LHmnMdfpVZBS1iYexXxbaW67Rc05W8Qt4ewZDZD';
 
 // === HELPER: Send WhatsApp message ===
 function sendWhatsAppMessage(to, text) {
