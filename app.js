@@ -10,6 +10,40 @@ const port = process.env.PORT || 3000;
 const verifyToken = process.env.VERIFY_TOKEN;
 const WHATSAPP_PHONE_NUMBER_ID = '1201303469727476';
 const WHATSAPP_ACCESS_TOKEN = 'EAAOB5yPxaIMBR3ZCA8xDOIUkyeGlsaigOmzjjZCQ321pvcDx4eJEfX6h76mb0C1HDI6ihytQ1luWp2DAtbl2g3kMIDGysRcIUMtBJ4sbJ61zowUxy9haLiZADEMWK5pnYxXo80osiT7B7KGwErr1rVMHnj2LHmnMdfpVZBS1iYexXxbaW67Rc05W8Qt4ewZDZD';
+const N8N_WEBHOOK_URL = 'https://outcome-were-musicians-links.trycloudflare.com/webhook/whatsapp-reply';
+
+// === HELPER: Forward message to n8n ===
+function forwardToN8n(payload) {
+  return new Promise((resolve, reject) => {
+    const data = JSON.stringify(payload);
+    const url = new URL(N8N_WEBHOOK_URL);
+
+    const options = {
+      hostname: url.hostname,
+      path: url.pathname,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(data)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let body = '';
+      res.on('data', (chunk) => body += chunk);
+      res.on('end', () => {
+        try { resolve(JSON.parse(body)); } catch (e) { resolve(body); }
+      });
+    });
+
+    req.on('error', (err) => {
+      console.error('Failed to forward to n8n:', err.message);
+      reject(err);
+    });
+    req.write(data);
+    req.end();
+  });
+}
 
 // === HELPER: Send WhatsApp message ===
 function sendWhatsAppMessage(to, text) {
@@ -91,6 +125,14 @@ app.post('/', async (req, res) => {
               const reply = `Echo: "${msgBody}"`;
               const result = await sendWhatsAppMessage(from, reply);
               console.log('Reply sent:', JSON.stringify(result, null, 2));
+
+              // Forward to n8n for Sales Manager processing
+              console.log('Forwarding to n8n...');
+              forwardToN8n(body).then((n8nRes) => {
+                console.log('n8n response:', JSON.stringify(n8nRes, null, 2));
+              }).catch((err) => {
+                console.error('n8n forward failed:', err.message);
+              });
             }
           }
         }
