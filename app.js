@@ -85,7 +85,8 @@ function sendWhatsAppMessage(to, text) {
 }
 
 // === WEBHOOK VERIFICATION (GET) ===
-app.get('/', (req, res) => {
+// Accepts both / and /webhook
+function handleVerification(req, res) {
   const { 'hub.mode': mode, 'hub.challenge': challenge, 'hub.verify_token': token } = req.query;
 
   if (mode === 'subscribe' && token === verifyToken) {
@@ -94,15 +95,19 @@ app.get('/', (req, res) => {
   } else {
     res.status(403).end();
   }
-});
+}
+
+app.get('/', handleVerification);
+app.get('/webhook', handleVerification);
 
 // === WEBHOOK RECEIVES MESSAGES (POST) ===
-app.post('/', async (req, res) => {
+// Accepts both / and /webhook
+async function handleWebhook(req, res) {
   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
   console.log(`\n\nWebhook received ${timestamp}`);
   console.log(JSON.stringify(req.body, null, 2));
 
-  // Process incoming messages
+  // Forward to n8n for processing (n8n handles replies)
   try {
     const body = req.body;
 
@@ -120,13 +125,6 @@ app.post('/', async (req, res) => {
 
             if (msgBody) {
               console.log(`\nMessage from ${from}: ${msgBody}`);
-
-              // Auto-reply with a confirmation
-              const reply = `Echo: "${msgBody}"`;
-              const result = await sendWhatsAppMessage(from, reply);
-              console.log('Reply sent:', JSON.stringify(result, null, 2));
-
-              // Forward to n8n for Sales Manager processing
               console.log('Forwarding to n8n...');
               forwardToN8n(body).then((n8nRes) => {
                 console.log('n8n response:', JSON.stringify(n8nRes, null, 2));
@@ -144,7 +142,10 @@ app.post('/', async (req, res) => {
 
   // Always respond 200 to Meta
   res.status(200).end();
-});
+}
+
+app.post('/', handleWebhook);
+app.post('/webhook', handleWebhook);
 
 // === SEND MESSAGE ENDPOINT (POST /send) ===
 // No authentication — use freely
@@ -228,8 +229,11 @@ app.post('/send-template', async (req, res) => {
 app.listen(port, () => {
   console.log(`\nListening on port ${port}\n`);
   console.log('Endpoints:');
-  console.log('  GET  /              — Webhook verification');
-  console.log('  POST /              — Webhook receives messages');
-  console.log('  POST /send          — Send a text message (no auth)');
-  console.log('  POST /send-template — Send a template message (no auth)');
+  console.log('  GET  / or /webhook         — Webhook verification');
+  console.log('  POST / or /webhook         — Webhook receives messages, forwards to n8n');
+  console.log('  POST /send                 — Send a text message (no auth)');
+  console.log('  POST /send-template        — Send a template message (no auth)');
+  console.log('');
+  console.log('Meta webhook URL: https://meta-test-webhook-fcfc.onrender.com/');
+  console.log('n8n forward URL: ' + N8N_WEBHOOK_URL);
 });
