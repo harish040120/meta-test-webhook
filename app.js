@@ -9,7 +9,7 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 const verifyToken = process.env.VERIFY_TOKEN;
 const WHATSAPP_PHONE_NUMBER_ID = '1201303469727476';
-const WHATSAPP_ACCESS_TOKEN = 'EAAOB5yPxaIMBR0eXaebsnNCCwclg4ga7d8exhsgAlUsylWCmTb0ZBIKNFZCqRIb3qcUIMFsQnOOtNFoYHowccVNCWxfzMT0kbEWQTA2WX1kkdWBGYmcre5gfZAKAiOjtliTaNacFiqM9xhVHmHmtW9r40LzbULWyaFyq1OMT2yiiCZBCfGrJ41aZBGZAbliy0UoR5HNskNIOu2a72JOR3Lylza0kAbd7O5AZBz2paPr06rdQRO4pcWVJW73NcenyQidgfggjgV4TKVAZCRecX8mA';
+const WHATSAPP_ACCESS_TOKEN = 'EAAOB5yPxaIMBR4jkXXMOg5uVkmV6qzVKtbYJVXawZBbAcPOkuXBfG7GlOjca4TREM9YbHNlzZC7D1ZCOzUH63xA3OZAa44Uo3XQ1mVgZAuUSzYZBgiz4Pz5Gs142tVzrmXC3mZCIbWrCPsWgkZCOgfKixCqirZAfVREkbA1UKma2k9jGXCI46yL2F7ohBn4IR5QfZCtkZCXTVIAmywZCATSARekexzqnaZB8LSe0dwuGSmKirAYWLHW82ZBLYoZABs3SXfn3oWX08VEj4ojHLXHe6QI5HuO';
 const N8N_WEBHOOK_URL = 'https://novelty-barcelona-stay-leg.trycloudflare.com/webhook/whatsapp-reply';
 
 // === HELPER: Forward message to n8n ===
