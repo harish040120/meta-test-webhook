@@ -9,7 +9,7 @@ app.use(express.json());
 const port = process.env.PORT || 3000;
 const verifyToken = process.env.VERIFY_TOKEN;
 const WHATSAPP_PHONE_NUMBER_ID = '1201303469727476';
-const WHATSAPP_ACCESS_TOKEN = 'EAAOB5yPxaIMBR3ZCA8xDOIUkyeGlsaigOmzjjZCQ321pvcDx4eJEfX6h76mb0C1HDI6ihytQ1luWp2DAtbl2g3kMIDGysRcIUMtBJ4sbJ61zowUxy9haLiZADEMWK5pnYxXo80osiT7B7KGwErr1rVMHnj2LHmnMdfpVZBS1iYexXxbaW67Rc05W8Qt4ewZDZD';
+const WHATSAPP_ACCESS_TOKEN = 'EAAOB5yPxaIMBR0eXaebsnNCCwclg4ga7d8exhsgAlUsylWCmTb0ZBIKNFZCqRIb3qcUIMFsQnOOtNFoYHowccVNCWxfzMT0kbEWQTA2WX1kkdWBGYmcre5gfZAKAiOjtliTaNacFiqM9xhVHmHmtW9r40LzbULWyaFyq1OMT2yiiCZBCfGrJ41aZBGZAbliy0UoR5HNskNIOu2a72JOR3Lylza0kAbd7O5AZBz2paPr06rdQRO4pcWVJW73NcenyQidgfggjgV4TKVAZCRecX8mA';
 const N8N_WEBHOOK_URL = 'https://outcome-were-musicians-links.trycloudflare.com/webhook/whatsapp-reply';
 
 // === HELPER: Forward message to n8n ===
